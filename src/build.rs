@@ -8,7 +8,7 @@ use core::fmt;
 use serde::de::{self, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer};
 
-use crate::Value;
+use crate::{Null, Value};
 
 impl<'de> Deserialize<'de> for Value {
     fn deserialize<D: Deserializer<'de>>(d: D) -> Result<Value, D::Error> {
@@ -93,5 +93,26 @@ impl Entries {
                 self.list.push((key, value));
             }
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for Null {
+    fn deserialize<D: Deserializer<'de>>(d: D) -> Result<Null, D::Error> {
+        d.deserialize_unit(NullVisitor)
+    }
+}
+
+/// Accepts the unit: JSON's `null`.
+struct NullVisitor;
+
+impl Visitor<'_> for NullVisitor {
+    type Value = Null;
+
+    fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str("null")
+    }
+
+    fn visit_unit<E: de::Error>(self) -> Result<Null, E> {
+        Ok(Null)
     }
 }

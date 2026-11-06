@@ -114,3 +114,15 @@ fn past_a_delta_is_a_range_and_junk_is_a_kind() {
         assert_eq!(parse_duration(bad), Err(Error::Kind), "{bad}");
     }
 }
+
+#[test]
+fn null_writes_as_json_null() {
+    assert_eq!(serde_json::to_string(&Null).unwrap(), "null");
+}
+
+#[test]
+fn null_reads_only_null() {
+    assert_eq!(serde_json::from_str::<Null>("null").unwrap(), Null);
+    assert_eq!(serde_json::from_str::<Option<Null>>("null").unwrap(), None);
+    assert!(serde_json::from_str::<Null>("0").is_err());
+}

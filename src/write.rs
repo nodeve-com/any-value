@@ -4,7 +4,7 @@
 use serde::ser::{SerializeMap, SerializeSeq};
 use serde::{Serialize, Serializer};
 
-use crate::{duration_text, timestamp_text, Value};
+use crate::{duration_text, timestamp_text, Null, Value};
 
 impl Serialize for Value {
     fn serialize<S: Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
@@ -33,5 +33,11 @@ impl Serialize for Value {
                 map.end()
             }
         }
+    }
+}
+
+impl Serialize for Null {
+    fn serialize<S: Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
+        s.serialize_unit()
     }
 }
