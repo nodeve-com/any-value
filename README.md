@@ -20,7 +20,7 @@ Use it where a program learns the kind of its data only on reading it: a field t
   - `Duration`, a length of time, a chrono `TimeDelta`
   - `List`, a `Vec` of values
   - `Map`, a `Vec` of key and value pairs, keys text, in the order the source gave them
-- **`Null`**: a unit type (a type with exactly one value) for the null value itself. A caller that holds an optional keeps "no value" apart from "the value null" by holding `Option<Null>`. `Value::from(Null)` is `Value::Null`.
+- **`Null`**: a unit type (a type with exactly one value) for the null value itself. A caller that holds an optional keeps "no value" apart from "the value null" by holding `Option<Null>`. `Value::from(Null)` is `Value::Null`. `Null` writes as a unit (JSON `null`) and reads from one.
 - **`Error`**: what reading fails with. `Kind` means a value of a kind the place does not take, or text that is no timestamp or duration. `Range` means a number or time past the width or range of the place.
 
 A float32 is a double that keeps its own shortest digits on output: `Float32(9.3)` writes `9.3`, where the same number as a `Double` writes `9.300000190734863`.
