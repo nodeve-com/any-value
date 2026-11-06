@@ -1,0 +1,33 @@
+[package]
+name = "any-value"
+description = "A value of any one kind JSON holds, plus timestamps and durations, and serde to read and write it."
+version = "0.1.0"
+edition = "2021"
+license = "MPL-2.0"
+repository = "https://github.com/nodeve-com/any-value"
+include = ["/src", "/README.md", "/LICENSE"]
+
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+indexing_slicing = "deny"
+arithmetic_side_effects = "deny"
+struct_excessive_bools = "deny"
+fn_params_excessive_bools = "deny"
+too_many_lines = "warn"
+
+[dependencies]
+# Timestamps and durations; no clock, no zone database.
+chrono = { version = "0.4", default-features = false, features = ["alloc", "serde"] }
+# A duration's text: an optional sign, then its units (src/time.rs).
+humantime = "2"
+# `Serialize`, `Deserialize`, and the `Deserializer` that fills a typed value; no derive.
+serde = { version = "1", default-features = false, features = ["alloc"] }
+
+[dev-dependencies]
+serde = { version = "1", features = ["derive"] }
+# The text parser and writer the tests drive `Serialize` and `Deserialize` through.
+serde_json = { version = "1", features = ["float_roundtrip"] }
+
+[workspace]
+resolver = "2"
